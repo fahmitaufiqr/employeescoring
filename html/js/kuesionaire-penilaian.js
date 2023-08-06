@@ -3,6 +3,7 @@ $(document).ready(function() {
     let btnSimpanPenilaian = $("#btnSimpanPenilaian");
     let role = "diri sendiri";
     let id_pegawai = "";
+    let nilaiAkhir = 0;
     let q1Val = 0;
     let q2Val = 0;
     let q3Val = 0;
@@ -129,20 +130,30 @@ $(document).ready(function() {
 
     //rumus
     function rumusPenilaian(pertanyaan, role, nilai){
+        
+        console.log(nilaiAkhir, "nilai akhir luar sc bbb")
         console.log(nilai, role, pertanyaan, "ini isi rumus penilaian")
+        console.log(nilaiAkhir, "nilai akhir luar sc aaa")
         nilaiAkhir = 0;
+            console.log(nilaiAkhir, "nilai akhir luar sc")
         //penilaian berdasarkan role
         switch(role){
             case "Diri Sendiri":
                 nilaiAkhir = nilai*0.12;
+                console.log(nilaiAkhir, "nilai akhir dalam sc")
             break;
             case "Rekan Kerja":
-                nilaiAkhir = nilai*0.33;
+                nilaiAkhir = nilai;
+                console.log(nilaiAkhir, "nilai akhir dalam sc")
             break;
             case "Supervisor":
                 nilaiAkhir = nilai*0.55;
+                console.log(nilaiAkhir, "nilai akhir dalam sc")
             break;
         }
+        console.log("random")
+
+        console.log(nilaiAkhir, "ini nilai akhir")
 
         // penilaian berdasarkan pertanyaan
         switch(pertanyaan){
@@ -213,6 +224,7 @@ $(document).ready(function() {
                 nilaiAkhir = nilaiAkhir*0.02;
             break;
         }
+        console.log(nilaiAkhir, "ini nilai akhir setelah diproses")
         return nilaiAkhir;
     }
 
