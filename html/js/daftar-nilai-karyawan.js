@@ -1,9 +1,14 @@
 $(document).ready(function() { 
-    let daftarNilai = $("#daftarNilai")
+    let daftarNilai = $("#daftarNilai");
+    let nilaiKinerjaPegawaiId = $("#nilaiKinerjaPegawaiId");
     let tbodyNilai = $("#tbodyDaftarNilaiKaryawan");
+    let persentaseSelisiKriteriaPegawaiId = $("#persentaseSelisiKriteriaPegawaiId");
     let arrDaftarNilai = [];
     let arrRekanKerja = [];
     let daftarNilaiSeluruh = [];
+    let totalNilaiKinerjaPegawai = 0;
+    let totalPersentaseSelisihKriteriaPegawai = 0;
+    
     console.log(arrDaftarNilai.length, "isi Arr Daftar Nilai");
 
     
@@ -52,7 +57,6 @@ $(document).ready(function() {
     )
 
 
-
     db.collection("scoring").where("id_employee", "==", id).get().then(
         function(querySnapshot) {
             if(querySnapshot?.docs[0]?.data()){
@@ -72,6 +76,9 @@ $(document).ready(function() {
                 totalNilaiRekan();
                 avgNilaiRekan();
                 console.log(daftarNilaiSeluruh.length, "ini isi");
+                totalSubkriteria();
+                nilaiKinerjaPegawai();
+                persentaseSelisihKriteriaPegawai();
                 daftarNilaiSeluruh.map(dns => {
                     let htmlString = 
                     `<tr>
@@ -79,6 +86,7 @@ $(document).ready(function() {
                         <td>${dns.diriSendiri}</td>
                         <td>${dns.atasan}</td>
                         <td>${dns.rekanKerja}</td>
+                        <td>${dns.totalSubkriteria}</td>
                     </tr>`;
                     no++;
                     tbodyNilai.append(htmlString);
@@ -99,53 +107,54 @@ $(document).ready(function() {
     }
 
     function mengisiArray(dataPenilai) {
+        console.log(dataPenilai.role_penilai, "role penilai")
         if (dataPenilai.role_penilai == "Diri Sendiri") {
-            daftarNilaiSeluruh[0].diriSendiri = dataPenilai.q1_score;
-            daftarNilaiSeluruh[1].diriSendiri = dataPenilai.q2_score;
-            daftarNilaiSeluruh[2].diriSendiri = dataPenilai.q3_score;
-            daftarNilaiSeluruh[3].diriSendiri = dataPenilai.q4_score;
-            daftarNilaiSeluruh[4].diriSendiri = dataPenilai.q5_score;
-            daftarNilaiSeluruh[5].diriSendiri = dataPenilai.q6_score;
-            daftarNilaiSeluruh[6].diriSendiri = dataPenilai.q7_score;
-            daftarNilaiSeluruh[7].diriSendiri = dataPenilai.q8_score;
-            daftarNilaiSeluruh[8].diriSendiri = dataPenilai.q9_score;
-            daftarNilaiSeluruh[9].diriSendiri = dataPenilai.q10_score;
-            daftarNilaiSeluruh[10].diriSendiri = dataPenilai.q11_score;
-            daftarNilaiSeluruh[11].diriSendiri = dataPenilai.q12_score;
-            daftarNilaiSeluruh[12].diriSendiri = dataPenilai.q13_score;
-            daftarNilaiSeluruh[13].diriSendiri = dataPenilai.q14_score;
-            daftarNilaiSeluruh[14].diriSendiri = dataPenilai.q15_score;
-            daftarNilaiSeluruh[15].diriSendiri = dataPenilai.q16_score;
-            daftarNilaiSeluruh[16].diriSendiri = dataPenilai.q17_score;
-            daftarNilaiSeluruh[17].diriSendiri = dataPenilai.q18_score;
-            daftarNilaiSeluruh[18].diriSendiri = dataPenilai.q19_score;
-            daftarNilaiSeluruh[19].diriSendiri = dataPenilai.q20_score;
-            daftarNilaiSeluruh[20].diriSendiri = dataPenilai.q21_score;
-            daftarNilaiSeluruh[21].diriSendiri = dataPenilai.q22_score;
+            daftarNilaiSeluruh[0].diriSendiri = Math.round(dataPenilai.q1_score*1000)/1000;
+            daftarNilaiSeluruh[1].diriSendiri = Math.round(dataPenilai.q2_score*1000)/1000;
+            daftarNilaiSeluruh[2].diriSendiri = Math.round(dataPenilai.q3_score*1000)/1000;
+            daftarNilaiSeluruh[3].diriSendiri = Math.round(dataPenilai.q4_score*1000)/1000;
+            daftarNilaiSeluruh[4].diriSendiri = Math.round(dataPenilai.q5_score*1000)/1000;
+            daftarNilaiSeluruh[5].diriSendiri = Math.round(dataPenilai.q6_score*1000)/1000;
+            daftarNilaiSeluruh[6].diriSendiri = Math.round(dataPenilai.q7_score*1000)/1000;
+            daftarNilaiSeluruh[7].diriSendiri = Math.round(dataPenilai.q8_score*1000)/1000;
+            daftarNilaiSeluruh[8].diriSendiri = Math.round(dataPenilai.q9_score*1000)/1000;
+            daftarNilaiSeluruh[9].diriSendiri = Math.round(dataPenilai.q10_score*1000)/1000;
+            daftarNilaiSeluruh[10].diriSendiri = Math.round(dataPenilai.q11_score*1000)/1000;
+            daftarNilaiSeluruh[11].diriSendiri = Math.round(dataPenilai.q12_score*1000)/1000;
+            daftarNilaiSeluruh[12].diriSendiri = Math.round(dataPenilai.q13_score*1000)/1000;
+            daftarNilaiSeluruh[13].diriSendiri = Math.round(dataPenilai.q14_score*1000)/1000;
+            daftarNilaiSeluruh[14].diriSendiri = Math.round(dataPenilai.q15_score*1000)/1000;
+            daftarNilaiSeluruh[15].diriSendiri = Math.round(dataPenilai.q16_score*1000)/1000;
+            daftarNilaiSeluruh[16].diriSendiri = Math.round(dataPenilai.q17_score*1000)/1000;
+            daftarNilaiSeluruh[17].diriSendiri = Math.round(dataPenilai.q18_score*1000)/1000;
+            daftarNilaiSeluruh[18].diriSendiri = Math.round(dataPenilai.q19_score*1000)/1000;
+            daftarNilaiSeluruh[19].diriSendiri = Math.round(dataPenilai.q20_score*1000)/1000;
+            daftarNilaiSeluruh[20].diriSendiri = Math.round(dataPenilai.q21_score*1000)/1000;
+            daftarNilaiSeluruh[21].diriSendiri = Math.round(dataPenilai.q22_score*1000)/1000;
         }
-        if (dataPenilai.role_penilai == "Atasan") {
-            daftarNilaiSeluruh[0].atasan = dataPenilai.q1_score;
-            daftarNilaiSeluruh[1].atasan = dataPenilai.q2_score;
-            daftarNilaiSeluruh[2].atasan = dataPenilai.q3_score;
-            daftarNilaiSeluruh[3].atasan = dataPenilai.q4_score;
-            daftarNilaiSeluruh[4].atasan = dataPenilai.q5_score;
-            daftarNilaiSeluruh[5].atasan = dataPenilai.q6_score;
-            daftarNilaiSeluruh[6].atasan = dataPenilai.q7_score;
-            daftarNilaiSeluruh[7].atasan = dataPenilai.q8_score;
-            daftarNilaiSeluruh[8].atasan = dataPenilai.q9_score;
-            daftarNilaiSeluruh[9].atasan = dataPenilai.q10_score;
-            daftarNilaiSeluruh[10].atasan = dataPenilai.q11_score;
-            daftarNilaiSeluruh[11].atasan = dataPenilai.q12_score;
-            daftarNilaiSeluruh[12].atasan = dataPenilai.q13_score;
-            daftarNilaiSeluruh[13].atasan = dataPenilai.q14_score;
-            daftarNilaiSeluruh[14].atasan = dataPenilai.q15_score;
-            daftarNilaiSeluruh[15].atasan = dataPenilai.q16_score;
-            daftarNilaiSeluruh[16].atasan = dataPenilai.q17_score;
-            daftarNilaiSeluruh[17].atasan = dataPenilai.q18_score;
-            daftarNilaiSeluruh[18].atasan = dataPenilai.q19_score;
-            daftarNilaiSeluruh[19].atasan = dataPenilai.q20_score;
-            daftarNilaiSeluruh[20].atasan = dataPenilai.q21_score;
-            daftarNilaiSeluruh[21].atasan = dataPenilai.q22_score;
+        if (dataPenilai.role_penilai == "Pranata Hubungan Masyarakat" || dataPenilai.role_penilai == "Pranata Komputer Pertama") {
+            daftarNilaiSeluruh[0].atasan = Math.round(dataPenilai.q1_score*1000)/1000;
+            daftarNilaiSeluruh[1].atasan = Math.round(dataPenilai.q2_score*1000)/1000;
+            daftarNilaiSeluruh[2].atasan = Math.round(dataPenilai.q3_score*1000)/1000;
+            daftarNilaiSeluruh[3].atasan = Math.round(dataPenilai.q4_score*1000)/1000;
+            daftarNilaiSeluruh[4].atasan = Math.round(dataPenilai.q5_score*1000)/1000;
+            daftarNilaiSeluruh[5].atasan = Math.round(dataPenilai.q6_score*1000)/1000;
+            daftarNilaiSeluruh[6].atasan = Math.round(dataPenilai.q7_score*1000)/1000;
+            daftarNilaiSeluruh[7].atasan = Math.round(dataPenilai.q8_score*1000)/1000;
+            daftarNilaiSeluruh[8].atasan = Math.round(dataPenilai.q9_score*1000)/1000;
+            daftarNilaiSeluruh[9].atasan = Math.round(dataPenilai.q10_score*1000)/1000;
+            daftarNilaiSeluruh[10].atasan = Math.round(dataPenilai.q11_score*1000)/1000;
+            daftarNilaiSeluruh[11].atasan = Math.round(dataPenilai.q12_score*1000)/1000;
+            daftarNilaiSeluruh[12].atasan = Math.round(dataPenilai.q13_score*1000)/1000;
+            daftarNilaiSeluruh[13].atasan = Math.round(dataPenilai.q14_score*1000)/1000;
+            daftarNilaiSeluruh[14].atasan = Math.round(dataPenilai.q15_score*1000)/1000;
+            daftarNilaiSeluruh[15].atasan = Math.round(dataPenilai.q16_score*1000)/1000;
+            daftarNilaiSeluruh[16].atasan = Math.round(dataPenilai.q17_score*1000)/1000;
+            daftarNilaiSeluruh[17].atasan = Math.round(dataPenilai.q18_score*1000)/1000;
+            daftarNilaiSeluruh[18].atasan = Math.round(dataPenilai.q19_score*1000)/1000;
+            daftarNilaiSeluruh[19].atasan = Math.round(dataPenilai.q20_score*1000)/1000;
+            daftarNilaiSeluruh[20].atasan = Math.round(dataPenilai.q21_score*1000)/1000;
+            daftarNilaiSeluruh[21].atasan = Math.round(dataPenilai.q22_score*1000)/1000;
         }
         if (dataPenilai.role_penilai == "Rekan Kerja") {
             arrRekanKerja.push(dataPenilai);
@@ -235,28 +244,68 @@ $(document).ready(function() {
         q22_total = q22_total*rkPersenNilai/arrRekanKerja.length;
 
         
-        daftarNilaiSeluruh[0].rekanKerja = Math.round(q1_total * 100) / 100;
-        daftarNilaiSeluruh[1].rekanKerja = Math.round(q2_total * 100) / 100;
-        daftarNilaiSeluruh[2].rekanKerja = Math.round(q3_total * 100) / 100;
-        daftarNilaiSeluruh[3].rekanKerja = Math.round(q4_total * 100) / 100;
-        daftarNilaiSeluruh[4].rekanKerja = Math.round(q5_total * 100) / 100;
-        daftarNilaiSeluruh[5].rekanKerja = Math.round(q6_total * 100) / 100;
-        daftarNilaiSeluruh[6].rekanKerja = Math.round(q7_total * 100) / 100;
-        daftarNilaiSeluruh[7].rekanKerja = Math.round(q8_total * 100) / 100;
-        daftarNilaiSeluruh[8].rekanKerja = Math.round(q9_total * 100) / 100;
-        daftarNilaiSeluruh[9].rekanKerja = Math.round(q10_total * 100) / 100;
-        daftarNilaiSeluruh[10].rekanKerja = Math.round(q11_total * 100) / 100;
-        daftarNilaiSeluruh[11].rekanKerja = Math.round(q12_total * 100) / 100;
-        daftarNilaiSeluruh[12].rekanKerja = Math.round(q13_total * 100) / 100;
-        daftarNilaiSeluruh[13].rekanKerja = Math.round(q14_total * 100) / 100;
-        daftarNilaiSeluruh[14].rekanKerja = Math.round(q15_total * 100) / 100;
-        daftarNilaiSeluruh[15].rekanKerja = Math.round(q16_total * 100) / 100;
-        daftarNilaiSeluruh[16].rekanKerja = Math.round(q17_total * 100) / 100;
-        daftarNilaiSeluruh[17].rekanKerja = Math.round(q18_total * 100) / 100;
-        daftarNilaiSeluruh[18].rekanKerja = Math.round(q19_total * 100) / 100;
-        daftarNilaiSeluruh[19].rekanKerja = Math.round(q20_total * 100) / 100;
-        daftarNilaiSeluruh[20].rekanKerja = Math.round(q21_total * 100) / 100;
-        daftarNilaiSeluruh[21].rekanKerja = Math.round(q22_total * 100) / 100;
+        daftarNilaiSeluruh[0].rekanKerja = Math.round(q1_total * 1000) / 1000;
+        daftarNilaiSeluruh[1].rekanKerja = Math.round(q2_total * 1000) / 1000;
+        daftarNilaiSeluruh[2].rekanKerja = Math.round(q3_total * 1000) / 1000;
+        daftarNilaiSeluruh[3].rekanKerja = Math.round(q4_total * 1000) / 1000;
+        daftarNilaiSeluruh[4].rekanKerja = Math.round(q5_total * 1000) / 1000;
+        daftarNilaiSeluruh[5].rekanKerja = Math.round(q6_total * 1000) / 1000;
+        daftarNilaiSeluruh[6].rekanKerja = Math.round(q7_total * 1000) / 1000;
+        daftarNilaiSeluruh[7].rekanKerja = Math.round(q8_total * 1000) / 1000;
+        daftarNilaiSeluruh[8].rekanKerja = Math.round(q9_total * 1000) / 1000;
+        daftarNilaiSeluruh[9].rekanKerja = Math.round(q10_total * 1000) / 1000;
+        daftarNilaiSeluruh[10].rekanKerja = Math.round(q11_total * 1000) / 1000;
+        daftarNilaiSeluruh[11].rekanKerja = Math.round(q12_total * 1000) / 1000;
+        daftarNilaiSeluruh[12].rekanKerja = Math.round(q13_total * 1000) / 1000;
+        daftarNilaiSeluruh[13].rekanKerja = Math.round(q14_total * 1000) / 1000;
+        daftarNilaiSeluruh[14].rekanKerja = Math.round(q15_total * 1000) / 1000;
+        daftarNilaiSeluruh[15].rekanKerja = Math.round(q16_total * 1000) / 1000;
+        daftarNilaiSeluruh[16].rekanKerja = Math.round(q17_total * 1000) / 1000;
+        daftarNilaiSeluruh[17].rekanKerja = Math.round(q18_total * 1000) / 1000;
+        daftarNilaiSeluruh[18].rekanKerja = Math.round(q19_total * 1000) / 1000;
+        daftarNilaiSeluruh[19].rekanKerja = Math.round(q20_total * 1000) / 1000;
+        daftarNilaiSeluruh[20].rekanKerja = Math.round(q21_total * 1000) / 1000;
+        daftarNilaiSeluruh[21].rekanKerja = Math.round(q22_total * 1000) / 1000;
     }
 
+    //fungsi hitung total nilai subkriteria
+    function totalSubkriteria(){
+        daftarNilaiSeluruh[0].totalSubkriteria = Math.round((daftarNilaiSeluruh[0].diriSendiri + daftarNilaiSeluruh[0].atasan + daftarNilaiSeluruh[0].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[1].totalSubkriteria = Math.round((daftarNilaiSeluruh[1].diriSendiri + daftarNilaiSeluruh[1].atasan + daftarNilaiSeluruh[1].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[2].totalSubkriteria = Math.round((daftarNilaiSeluruh[2].diriSendiri + daftarNilaiSeluruh[2].atasan + daftarNilaiSeluruh[2].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[3].totalSubkriteria = Math.round((daftarNilaiSeluruh[3].diriSendiri + daftarNilaiSeluruh[3].atasan + daftarNilaiSeluruh[3].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[4].totalSubkriteria = Math.round((daftarNilaiSeluruh[4].diriSendiri + daftarNilaiSeluruh[4].atasan + daftarNilaiSeluruh[4].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[5].totalSubkriteria = Math.round((daftarNilaiSeluruh[5].diriSendiri + daftarNilaiSeluruh[5].atasan + daftarNilaiSeluruh[5].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[6].totalSubkriteria = Math.round((daftarNilaiSeluruh[6].diriSendiri + daftarNilaiSeluruh[6].atasan + daftarNilaiSeluruh[6].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[7].totalSubkriteria = Math.round((daftarNilaiSeluruh[7].diriSendiri + daftarNilaiSeluruh[7].atasan + daftarNilaiSeluruh[7].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[8].totalSubkriteria = Math.round((daftarNilaiSeluruh[8].diriSendiri + daftarNilaiSeluruh[8].atasan + daftarNilaiSeluruh[8].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[9].totalSubkriteria = Math.round((daftarNilaiSeluruh[9].diriSendiri + daftarNilaiSeluruh[9].atasan + daftarNilaiSeluruh[9].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[10].totalSubkriteria = Math.round((daftarNilaiSeluruh[10].diriSendiri + daftarNilaiSeluruh[10].atasan + daftarNilaiSeluruh[10].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[11].totalSubkriteria = Math.round((daftarNilaiSeluruh[11].diriSendiri + daftarNilaiSeluruh[11].atasan + daftarNilaiSeluruh[11].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[12].totalSubkriteria = Math.round((daftarNilaiSeluruh[12].diriSendiri + daftarNilaiSeluruh[12].atasan + daftarNilaiSeluruh[12].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[13].totalSubkriteria = Math.round((daftarNilaiSeluruh[13].diriSendiri + daftarNilaiSeluruh[13].atasan + daftarNilaiSeluruh[13].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[14].totalSubkriteria = Math.round((daftarNilaiSeluruh[14].diriSendiri + daftarNilaiSeluruh[14].atasan + daftarNilaiSeluruh[14].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[15].totalSubkriteria = Math.round((daftarNilaiSeluruh[15].diriSendiri + daftarNilaiSeluruh[15].atasan + daftarNilaiSeluruh[15].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[16].totalSubkriteria = Math.round((daftarNilaiSeluruh[16].diriSendiri + daftarNilaiSeluruh[16].atasan + daftarNilaiSeluruh[16].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[17].totalSubkriteria = Math.round((daftarNilaiSeluruh[17].diriSendiri + daftarNilaiSeluruh[17].atasan + daftarNilaiSeluruh[17].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[18].totalSubkriteria = Math.round((daftarNilaiSeluruh[18].diriSendiri + daftarNilaiSeluruh[18].atasan + daftarNilaiSeluruh[18].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[19].totalSubkriteria = Math.round((daftarNilaiSeluruh[19].diriSendiri + daftarNilaiSeluruh[19].atasan + daftarNilaiSeluruh[19].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[20].totalSubkriteria = Math.round((daftarNilaiSeluruh[20].diriSendiri + daftarNilaiSeluruh[20].atasan + daftarNilaiSeluruh[20].rekanKerja)*1000)/1000;
+        daftarNilaiSeluruh[21].totalSubkriteria = Math.round((daftarNilaiSeluruh[21].diriSendiri + daftarNilaiSeluruh[21].atasan + daftarNilaiSeluruh[21].rekanKerja)*1000)/1000;
+    }
+
+    function nilaiKinerjaPegawai() {
+        for (let i = 0; i < daftarNilaiSeluruh.length; i++) {
+            totalNilaiKinerjaPegawai = totalNilaiKinerjaPegawai + daftarNilaiSeluruh[i].totalSubkriteria;
+            console.log(totalNilaiKinerjaPegawai,daftarNilaiSeluruh,"total nilai kinerja pegawai")
+        }
+        totalNilaiKinerjaPegawai = Math.round(totalNilaiKinerjaPegawai*100)/100;
+        nilaiKinerjaPegawaiId.text(totalNilaiKinerjaPegawai)
+    }
+
+    function persentaseSelisihKriteriaPegawai() {
+        totalPersentaseSelisihKriteriaPegawai = ((totalNilaiKinerjaPegawai - 2.5)/2.5)*100
+        console.log(totalPersentaseSelisihKriteriaPegawai, "totalPersentaseSelisihKriteriaPegawai")
+        persentaseSelisiKriteriaPegawaiId.text(totalPersentaseSelisihKriteriaPegawai + "%")
+    }
 })

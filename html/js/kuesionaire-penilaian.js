@@ -146,7 +146,10 @@ $(document).ready(function() {
                 nilaiAkhir = nilai;
                 console.log(nilaiAkhir, "nilai akhir dalam sc")
             break;
-            case "Supervisor":
+            case "Pranata Hubungan Masyarakat":
+                nilaiAkhir = nilai*0.55;
+                console.log(nilaiAkhir, "nilai akhir dalam sc")
+            case "Pranata Komputer Pertama":
                 nilaiAkhir = nilai*0.55;
                 console.log(nilaiAkhir, "nilai akhir dalam sc")
             break;
@@ -233,17 +236,22 @@ $(document).ready(function() {
         let userData = JSON.parse(localStorage.getItem('userData'));
         
         console.log(userData, "Ini User Data");
+
         console.log(userData.id_key, "Ini User Data id KEY");
 
         // Isi variable idPenilai dari id_key userData
         id_penilai = userData.id_key ?? "-";
 
+        console.log(id_penilai, idDariUrlVal, userData.jabatan, "pengecekan aja")
         // Set role Penilai berdasarkan ID dan jabatan
         if (id_penilai === idDariUrlVal) {
             role = "Diri Sendiri";
-        } else if (id_penilai !== idDariUrlVal && userData.jabatan === 'Supervisor') {
-            role = "Supervisor";
-        } else {
+        } else if (id_penilai !== idDariUrlVal && userData.jabatan === 'Pranata Hubungan Masyarakat') {
+            role = "Pranata Hubungan Masyarakat";
+        } else if (id_penilai !== idDariUrlVal && userData.jabatan === 'Pranata Komputer Pertama') {
+            role = "Pranata Komputer Pertama";
+        }
+         else {
             role = "Rekan Kerja";
         }        
         
