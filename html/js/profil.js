@@ -5,6 +5,7 @@ $(document).ready(function() {
     let formJabatan = $("#formJabatan");
     let formGantiPassword = $("#formGantiPassword");
     let formPassword = $("#formPassword");
+    let pagesProfilId = $("#pagesProfilId");
 
     // fungsi get id karyawan pada url
     const queryString = window.location.search;
@@ -21,6 +22,8 @@ $(document).ready(function() {
         }
     })
 
+    pagesProfileSetId();
+    
     db.collection("employee").doc(idDariUrl).get().then((doc) => {
         let dataKaryawan = doc.data();
 
@@ -31,5 +34,13 @@ $(document).ready(function() {
         
     });
 
-    
+    function pagesProfileSetId() {
+        console.log(pagesProfilId)
+        let userData = JSON.parse(localStorage.getItem('userData'));
+        console.log(userData, pagesProfilId)
+        // Isi variable idPenilai dari id_key userData
+        let idUser = userData.id_key ?? "-";
+
+        pagesProfilId.attr("href", "pages-profile.html?id=" + idUser)
+    }
 })

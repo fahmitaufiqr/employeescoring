@@ -49,7 +49,7 @@
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand">
                         <!-- Logo icon -->
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -77,47 +77,7 @@
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
-                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav float-start me-auto">
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark"
-                                href="javascript:void(0)"><i class="mdi mdi-magnify me-1"></i> <span class="font-16">Search</span></a>
-                            <form class="app-search position-absolute">
-                                <input type="text" class="form-control" placeholder="Search &amp; enter"> <a
-                                    class="srh-btn"><i class="mdi mdi-window-close"></i></a>
-                            </form>
-                        </li>
-                    </ul>
-                    <!-- ============================================================== -->
-                    <!-- Right side toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav float-end">
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="../assets/images/users/profile.png" alt="user" class="rounded-circle" width="31">
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i>
-                                    My Profile</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i>
-                                    My Balance</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i>
-                                    Inbox</a>
-                            </ul>
-                        </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
-                    </ul>
-                </div>
+                
             </nav>
         </header>
         <!-- ============================================================== -->
@@ -132,15 +92,13 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
+                        <li class="sidebar-item">&nbsp;</li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="pages-profile.html" aria-expanded="false"><i
+                            href="pages-profile.html" id="pagesProfilId" aria-expanded="false"><i
                                 class="mdi mdi-account-network"></i><span class="hide-menu">Profil</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="daftar-karyawan.html" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span
                                     class="hide-menu">Daftar Karyawan</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="daftar-nilai.html" aria-expanded="false"><i class="mdi mdi-file-document-box"></i><span
-                                    class="hide-menu">Daftar Nilai</span></a></li>
                         <li class="sidebar-item" id="btnLogout"> <a class="text-danger sidebar-link waves-effect waves-dark sidebar-link"
                             aria-expanded="false"><i class="text-danger mdi mdi-logout"></i><span
                                 class="hide-menu">Logout</span></a></li>
@@ -163,21 +121,7 @@
             <!-- ============================================================== -->
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
-                    <div class="col-6">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0 d-flex align-items-center">
-                              <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
-                              <li class="breadcrumb-item active" aria-current="page">Profile</li>
-                            </ol>
-                          </nav>
-                        <h1 class="mb-0 fw-bold">Profile</h1> 
-                    </div>
-                    <div class="col-6">
-                        <div class="text-end upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
-                                target="_blank">Upgrade to Pro</a>
-                        </div>
-                    </div>
+                    <h1 class="mb-0 fw-bold">Profile</h1> 
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -219,23 +163,6 @@
                                         <div class="col-md-12">
                                             <input type="text" id="formJabatan" placeholder="johnathan@admin.com"
                                                 class="form-control form-control-line" name="example-email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12">Password</label>
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="formGantiPassword">
-                                            <label class="custom-control-label" for="customSwitch1">Ganti Password</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="password" disabled id="formPassword" value="password"
-                                                class="form-control form-control-line">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-success text-white">Update Profile</button>
                                         </div>
                                     </div>
                                 </form>

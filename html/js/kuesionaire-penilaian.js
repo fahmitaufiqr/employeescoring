@@ -26,11 +26,10 @@ $(document).ready(function() {
     let q20Val = 0;
     let q21Val = 0;
     let q22Val = 0;
-    let bulan = "";
-    let tahun = "";
-
+    let pagesProfilId = $("#pagesProfilId");
    
 
+    pagesProfileSetId();
     // function
     // simpan penilaian
     btnSimpanPenilaian.click(function(){
@@ -66,11 +65,34 @@ $(document).ready(function() {
         q20Val = $("input[name='q20']:checked").val();
         q21Val = $("input[name='q21']:checked").val();
         q22Val = $("input[name='q22']:checked").val();
-        bulan = $('#bulan :selected').val();
-        tahun = $('#tahun :selected').val();
-    
+        if (q1Val===undefined ||
+            q2Val===undefined ||
+            q3Val===undefined ||
+            q4Val===undefined ||
+            q5Val===undefined ||
+            q6Val===undefined ||
+            q7Val===undefined ||
+            q8Val===undefined ||
+            q9Val===undefined ||
+            q10Val===undefined ||
+            q11Val===undefined ||
+            q12Val===undefined ||
+            q13Val===undefined ||
+            q14Val===undefined ||
+            q15Val===undefined ||
+            q16Val===undefined ||
+            q17Val===undefined ||
+            q18Val===undefined ||
+            q19Val===undefined ||
+            q20Val===undefined ||
+            q21Val===undefined ||
+            q22Val===undefined) {
+                alert("Isi semua pertanyaan")
+                return;
+        }
         //untuk ngambil data penilai yang login dari local storage
         let userData = JSON.parse(localStorage.getItem('userData'));
+        console.log(idDariUrl, "id dari url")
 
         let penilaian = {
             id_scoring: makeid(10),
@@ -78,8 +100,6 @@ $(document).ready(function() {
             nama_penilai: userData.nama,
             id_penilai: id_penilai,
             role_penilai: role,
-            bulan: bulan,
-            tahun: tahun,
             q1_score: rumusPenilaian("q1", role, q1Val),
             q2_score: rumusPenilaian("q2", role, q2Val),
             q3_score: rumusPenilaian("q3", role, q3Val),
@@ -269,5 +289,15 @@ $(document).ready(function() {
           counter += 1;
         }
         return result;
+    }
+
+    function pagesProfileSetId() {
+        console.log(pagesProfilId)
+        let userData = JSON.parse(localStorage.getItem('userData'));
+        console.log(userData, pagesProfilId)
+        // Isi variable idPenilai dari id_key userData
+        let idUser = userData.id_key ?? "-";
+
+        pagesProfilId.attr("href", "pages-profile.html?id=" + idUser)
     }
 })

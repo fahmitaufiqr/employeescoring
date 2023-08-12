@@ -1,7 +1,8 @@
 $(document).ready(function() { 
     let btnTambahPenilaian = $("#btnTambahPenilaian");
     let tbody = $("#tbodyDaftarPenilaian");
-
+    let pagesProfilId = $("#pagesProfilId");
+    
     // dummy karyawan
     let penilaian = {
         id: "1",
@@ -27,6 +28,8 @@ $(document).ready(function() {
       tbody.append(htmlString);
     });
 
+    pagesProfileSetId();
+
     // fungsi get id karyawan pada url
     const queryString = window.location.search;
     console.log(queryString);
@@ -35,4 +38,14 @@ $(document).ready(function() {
     console.log(id);
 
     btnTambahPenilaian.attr("href", "kuesionaire-penilaian.html?id-pegawai="+id)
+
+    function pagesProfileSetId() {
+        console.log(pagesProfilId)
+        let userData = JSON.parse(localStorage.getItem('userData'));
+        console.log(userData, pagesProfilId)
+        // Isi variable idPenilai dari id_key userData
+        let idUser = userData.id_key ?? "-";
+
+        pagesProfilId.attr("href", "pages-profile.html?id=" + idUser)
+    }
 })

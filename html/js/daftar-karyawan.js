@@ -2,6 +2,7 @@ $(document).ready(function() {
     // console.log(db); 
     let btnTambahKaryawan = $("#btnTambahKaryawan");
     let tbody = $("#tbodyDaftarKaryawan");
+    let pagesProfilId = $("#pagesProfilId");
 
     // isi karyawan ke array
     let daftarKaryawan = []
@@ -13,6 +14,7 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     const idDariUrl = urlParams.get('id');
 
+    pagesProfileSetId();
     db.collection("employee").get().then( (snapshot) => {
         // Cara ngeget data dri Snapshot menggunakan snapshot.docs
         snapshot.docs.forEach(doc => {
@@ -35,7 +37,7 @@ $(document).ready(function() {
                 <td>${dk.jabatan}</td>
                 <td>
                     <a href="daftar-nilai-karyawan.html?id=${dk.id_key}" type="button" class="btn btn-primary">Lihat Nilai</a>
-                    <a href="daftar-penilaian-karyawan.html?id=${dk.id_key}" type="button" class="btn btn-primary">Beri Nilai</a>
+                    <a href="kuesionaire-penilaian.html?id-pegawai=${dk.id_key}" type="button" class="btn btn-primary">Beri Nilai</a>
                 </td>
         </tr>`;
         no++;
@@ -62,4 +64,14 @@ $(document).ready(function() {
           console.log(daftarKaryawan.length);
           tbody.append(htmlString);
     })
+
+    function pagesProfileSetId() {
+        console.log(pagesProfilId)
+        let userData = JSON.parse(localStorage.getItem('userData'));
+        console.log(userData, pagesProfilId)
+        // Isi variable idPenilai dari id_key userData
+        let idUser = userData.id_key ?? "-";
+
+        pagesProfilId.attr("href", "pages-profile.html?id=" + idUser)
+    }
 })

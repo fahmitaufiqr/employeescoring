@@ -8,6 +8,7 @@ $(document).ready(function() {
     let daftarNilaiSeluruh = [];
     let totalNilaiKinerjaPegawai = 0;
     let totalPersentaseSelisihKriteriaPegawai = 0;
+    let pagesProfilId = $("#pagesProfilId");
     
     console.log(arrDaftarNilai.length, "isi Arr Daftar Nilai");
 
@@ -35,13 +36,16 @@ $(document).ready(function() {
     let q21_total = 0;
     let q22_total = 0;
 
+    console.log("123")
+    pagesProfileSetId();
+
     // fungsi get id karyawan pada url
     const queryString = window.location.search;
     console.log(queryString);
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get('id');
     console.log(id, "here");
-
+    
     //fungsi untuk get nama karyawan yang diklik
     db.collection("employee").where("id_key", "==", id).get().then(
         function(querySnapshot) {
@@ -180,8 +184,6 @@ $(document).ready(function() {
             daftarNilaiSeluruh[19].rekanKerja = q20_total;
             daftarNilaiSeluruh[20].rekanKerja = q21_total;
             daftarNilaiSeluruh[21].rekanKerja = q22_total;
-
-
         }
     }
 
@@ -217,6 +219,9 @@ $(document).ready(function() {
     }
 
     function avgNilaiRekan() {
+        if (q1_total == 0) {
+            return;
+        }
         console.log(q1_total, "ini q1 tot", arrRekanKerja.length);
         let rkPersenNilai = 0.33;
         q1_total = q1_total*rkPersenNilai/arrRekanKerja.length;
@@ -307,5 +312,15 @@ $(document).ready(function() {
         totalPersentaseSelisihKriteriaPegawai = ((totalNilaiKinerjaPegawai - 2.5)/2.5)*100
         console.log(totalPersentaseSelisihKriteriaPegawai, "totalPersentaseSelisihKriteriaPegawai")
         persentaseSelisiKriteriaPegawaiId.text(totalPersentaseSelisihKriteriaPegawai + "%")
+    }
+
+    function pagesProfileSetId() {
+        console.log(pagesProfilId)
+        let userData = JSON.parse(localStorage.getItem('userData'));
+        console.log(userData, pagesProfilId)
+        // Isi variable idPenilai dari id_key userData
+        let idUser = userData.id_key ?? "-";
+
+        pagesProfilId.attr("href", "pages-profile.html?id=" + idUser)
     }
 })
