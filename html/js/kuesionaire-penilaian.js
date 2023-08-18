@@ -181,7 +181,7 @@ $(document).ready(function() {
         // penilaian berdasarkan pertanyaan
         switch(pertanyaan){
             case "q1":
-                nilaiAkhir = nilaiAkhir*0.03;
+                nilaiAkhir = nilaiAkhir*0.05;
             break;
             case "q2":
                 nilaiAkhir = nilaiAkhir*0.05;
@@ -205,10 +205,10 @@ $(document).ready(function() {
                 nilaiAkhir = nilaiAkhir*0.03;
             break;
             case "q9":
-                nilaiAkhir = nilaiAkhir*0.075;
+                nilaiAkhir = nilaiAkhir*0.085;
             break;
             case "q10":
-                nilaiAkhir = nilaiAkhir*0.075;
+                nilaiAkhir = nilaiAkhir*0.085;
             break;
             case "q11":
                 nilaiAkhir = nilaiAkhir*0.1;
@@ -235,16 +235,16 @@ $(document).ready(function() {
                 nilaiAkhir = nilaiAkhir*0.02;
             break;
             case "q19":
-                nilaiAkhir = nilaiAkhir*0.025;
+                nilaiAkhir = nilaiAkhir*0.015;
             break;
             case "q20":
-                nilaiAkhir = nilaiAkhir*0.025;
+                nilaiAkhir = nilaiAkhir*0.015;
             break;
             case "q21":
-                nilaiAkhir = nilaiAkhir*0.03;
+                nilaiAkhir = nilaiAkhir*0.02;
             break;
             case "q22":
-                nilaiAkhir = nilaiAkhir*0.02;
+                nilaiAkhir = nilaiAkhir*0.01;
             break;
         }
         console.log(nilaiAkhir, "ini nilai akhir setelah diproses")
