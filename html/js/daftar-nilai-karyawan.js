@@ -309,7 +309,7 @@ $(document).ready(function() {
     }
 
     function persentaseSelisihKriteriaPegawai() {
-        totalPersentaseSelisihKriteriaPegawai = ((totalNilaiKinerjaPegawai - 2.5)/2.5)*100
+        totalPersentaseSelisihKriteriaPegawai = (((totalNilaiKinerjaPegawai - 2.5)/2.5)*100)+100
         console.log(totalPersentaseSelisihKriteriaPegawai, "totalPersentaseSelisihKriteriaPegawai")
         persentaseSelisiKriteriaPegawaiId.text(totalPersentaseSelisihKriteriaPegawai + "%")
     }
